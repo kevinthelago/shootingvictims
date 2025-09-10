@@ -1,57 +1,7 @@
 [
   {
-    "firstname": "John",
-    "lastname": "Doe",
-    "dateOfDeath": "2023-01-15"
-  },
-  {
-    "firstname": "Jane",
-    "lastname": "Smith",
-    "dateOfDeath": "2023-02-10"
-  },  
-  {
-    "firstname": "Jane",
-    "lastname": "Smith",
-    "dateOfDeath": "2023-02-10"
-  },
-  {
-    "firstname": "Michael",
-    "lastname": "Johnson",
-    "dateOfDeath": "2023-03-05"
-  },
-  {
-    "firstname": "Sarah",
-    "lastname": "Williams",
-    "dateOfDeath": "2023-04-20"
-  },
-  {
-    "firstname": "David",
-    "lastname": "Brown",
-    "dateOfDeath": "2023-05-12"
-  },
-  {
-    "firstname": "Emily",
-    "lastname": "Davis",
-    "dateOfDeath": "2023-06-08"
-  },
-  {
-    "firstname": "Robert",
-    "lastname": "Miller",
-    "dateOfDeath": "2023-07-03"
-  },
-  {
-    "firstname": "Lisa",
-    "lastname": "Wilson",
-    "dateOfDeath": "2023-08-18"
-  },
-  {
-    "firstname": "James",
-    "lastname": "Moore",
-    "dateOfDeath": "2023-09-25"
-  },
-  {
-    "firstname": "Jennifer",
-    "lastname": "Taylor",
-    "dateOfDeath": "2023-10-14"
+    "firstname": "Charlie",
+    "lastname": "Kirk",
+    "dateOfDeath": "2025-09-10"
   }
 ]

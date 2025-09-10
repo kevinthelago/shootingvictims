@@ -66,20 +66,32 @@ class VictimsManager:
         except ValueError:
             return False
 
-    def victim_exists(self, firstname, lastname, date_of_death):
+    def victim_exists(self, firstname, middlename, lastname, age, date_of_death):
         """Check if a victim with identical data already exists"""
         for victim in self.victims:
             if (victim.get('firstname', '').lower() == firstname.lower() and
+                victim.get('middlename', '').lower() == middlename.lower() and
                 victim.get('lastname', '').lower() == lastname.lower() and
+                victim.get('age') == age and
                 victim.get('dateOfDeath') == date_of_death):
                 return True
         return False
 
-    def add_victim(self, firstname, lastname, date_of_death):
+    def add_victim(self, firstname, middlename, lastname, age, date_of_death):
         """Add a new victim with duplicate checking"""
         # Validate inputs
         if not firstname or not lastname or not date_of_death:
-            print("Error: All fields (firstname, lastname, dateOfDeath) are required")
+            print("Error: Required fields (firstname, lastname, age, dateOfDeath) are required")
+            return False
+
+        # Validate age
+        try:
+            age = int(age)
+            if age < 0:
+                print("Error: Age must be a non-negative number")
+                return False
+        except ValueError:
+            print("Error: Age must be a valid number")
             return False
 
         # Validate date format
@@ -88,21 +100,25 @@ class VictimsManager:
             return False
 
         # Check for duplicates
-        if self.victim_exists(firstname, lastname, date_of_death):
-            print(f"Error: Victim '{firstname} {lastname}' with date '{date_of_death}' already exists")
+        if self.victim_exists(firstname, middlename, lastname, age, date_of_death):
+            full_name = f"{firstname} {middlename} {lastname}".strip().replace('  ', ' ')
+            print(f"Error: Victim '{full_name}' (age {age}) with date '{date_of_death}' already exists")
             return False
 
         # Add new victim
         new_victim = {
             "firstname": firstname.strip(),
+            "middlename": middlename.strip() if middlename else "",
             "lastname": lastname.strip(),
+            "age": age,
             "dateOfDeath": date_of_death
         }
 
         self.victims.append(new_victim)
         self.sort_victims_by_date()
         self.save_victims()
-        print(f"✓ Added victim: {firstname} {lastname} - {date_of_death}")
+        full_name = f"{firstname} {middlename} {lastname}".strip().replace('  ', ' ')
+        print(f"✓ Added victim: {full_name} (age {age}) - {date_of_death}")
         return True
 
     def list_victims(self):
@@ -112,25 +128,38 @@ class VictimsManager:
             return
 
         print(f"\nTotal victims: {len(self.victims)}")
-        print("-" * 50)
+        print("-" * 70)
         for i, victim in enumerate(self.victims, 1):
             firstname = victim.get('firstname', 'Unknown')
+            middlename = victim.get('middlename', '')
             lastname = victim.get('lastname', 'Unknown')
+            age = victim.get('age', 'Unknown')
             date_of_death = victim.get('dateOfDeath', 'Unknown')
-            print(f"{i:3d}. {firstname} {lastname} - {date_of_death}")
+            full_name = f"{firstname} {middlename} {lastname}".strip().replace('  ', ' ')
+            print(f"{i:3d}. {full_name} (age {age}) - {date_of_death}")
 
-    def remove_victim(self, firstname, lastname, date_of_death):
+    def remove_victim(self, firstname, middlename, lastname, age, date_of_death):
         """Remove a victim by exact match"""
+        try:
+            age = int(age)
+        except ValueError:
+            print("Error: Age must be a valid number")
+            return False
+            
         for i, victim in enumerate(self.victims):
             if (victim.get('firstname', '').lower() == firstname.lower() and
+                victim.get('middlename', '').lower() == middlename.lower() and
                 victim.get('lastname', '').lower() == lastname.lower() and
+                victim.get('age') == age and
                 victim.get('dateOfDeath') == date_of_death):
                 removed = self.victims.pop(i)
                 self.save_victims()
-                print(f"✓ Removed victim: {removed['firstname']} {removed['lastname']} - {removed['dateOfDeath']}")
+                removed_name = f"{removed['firstname']} {removed.get('middlename', '')} {removed['lastname']}".strip().replace('  ', ' ')
+                print(f"✓ Removed victim: {removed_name} (age {removed['age']}) - {removed['dateOfDeath']}")
                 return True
         
-        print(f"Error: Victim '{firstname} {lastname}' with date '{date_of_death}' not found")
+        full_name = f"{firstname} {middlename} {lastname}".strip().replace('  ', ' ')
+        print(f"Error: Victim '{full_name}' (age {age}) with date '{date_of_death}' not found")
         return False
 
 
@@ -141,7 +170,9 @@ def main():
     # Add command
     add_parser = subparsers.add_parser('add', help='Add a new victim')
     add_parser.add_argument('firstname', help='First name of the victim')
+    add_parser.add_argument('middlename', nargs='?', default='', help='Middle name of the victim (optional)')
     add_parser.add_argument('lastname', help='Last name of the victim')
+    add_parser.add_argument('age', help='Age of the victim')
     add_parser.add_argument('date', help='Date of death (YYYY-MM-DD)')
 
     # List command
@@ -150,7 +181,9 @@ def main():
     # Remove command
     remove_parser = subparsers.add_parser('remove', help='Remove a victim')
     remove_parser.add_argument('firstname', help='First name of the victim')
+    remove_parser.add_argument('middlename', nargs='?', default='', help='Middle name of the victim (optional)')
     remove_parser.add_argument('lastname', help='Last name of the victim')
+    remove_parser.add_argument('age', help='Age of the victim')
     remove_parser.add_argument('date', help='Date of death (YYYY-MM-DD)')
 
     args = parser.parse_args()
@@ -162,11 +195,11 @@ def main():
     manager = VictimsManager()
 
     if args.command == 'add':
-        manager.add_victim(args.firstname, args.lastname, args.date)
+        manager.add_victim(args.firstname, args.middlename, args.lastname, args.age, args.date)
     elif args.command == 'list':
         manager.list_victims()
     elif args.command == 'remove':
-        manager.remove_victim(args.firstname, args.lastname, args.date)
+        manager.remove_victim(args.firstname, args.middlename, args.lastname, args.age, args.date)
 
 
 if __name__ == "__main__":

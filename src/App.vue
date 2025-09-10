@@ -12,20 +12,20 @@
       </div>
       
       <div class="victims-list">
-        <Person v-for="(victim, index) in victims" :key="index" :person="victim" />
+        <Victim v-for="(victim, index) in victims" :key="index" :person="victim" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Person from './components/Person.vue'
+import Victim from './components/Victim.vue'
 import victimsData from './assets/victims.json'
 
 export default {
   name: 'App',
   components: {
-    Person
+    Victim
   },
   data() {
     return {

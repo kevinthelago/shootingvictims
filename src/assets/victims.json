@@ -1,22 +1,37 @@
 [
   {
     "firstname": "Charlie",
+    "middlename": "James",
     "lastname": "Kirk",
+    "age": 31,
     "dateOfDeath": "2025-09-10"
   },
   {
     "firstname": "Adrian",
+    "middlename": "",
     "lastname": "Torres",
+    "age": 0,
     "dateOfDeath": "2025-09-10"
   },
   {
     "firstname": "Alexis",
+    "middlename": "",
     "lastname": "Jasso",
+    "age": 0,
     "dateOfDeath": "2025-09-07"
   },
   {
     "firstname": "Francisco",
+    "middlename": "",
     "lastname": "Navarrete",
+    "age": 0,
     "dateOfDeath": "2025-09-07"
+  },
+  {
+    "firstname": "Kip",
+    "middlename": "",
+    "lastname": "Jones",
+    "age": 0,
+    "dateOfDeath": "2025-09-06"
   }
 ]

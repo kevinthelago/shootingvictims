@@ -1,17 +1,24 @@
 <template>
   <div class="person-item">
-    <span class="name">{{ person.firstname }} {{ person.lastname }}</span>
+    <span class="name">{{ fullName }}</span>
     <span class="date">{{ person.dateOfDeath }}</span>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Person',
+  name: 'Victim',
   props: {
     person: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    fullName() {
+      const { firstname, middlename, lastname } = this.person
+      const middle = middlename ? ` ${middlename} ` : ' '
+      return `${firstname}${middle}${lastname}`
     }
   }
 }

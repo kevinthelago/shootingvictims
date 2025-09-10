@@ -23,6 +23,7 @@ class VictimsManager:
             if os.path.exists(self.json_file_path):
                 with open(self.json_file_path, 'r', encoding='utf-8') as file:
                     self.victims = json.load(file)
+                self.sort_victims_by_date()
             else:
                 print(f"Warning: {self.json_file_path} not found. Starting with empty list.")
                 self.victims = []
@@ -32,6 +33,17 @@ class VictimsManager:
         except Exception as e:
             print(f"Error loading victims file: {e}")
             sys.exit(1)
+
+    def sort_victims_by_date(self):
+        """Sort victims by date of death (most recent first - newest to oldest)"""
+        def parse_date(victim):
+            try:
+                return datetime.strptime(victim.get('dateOfDeath', '1900-01-01'), '%Y-%m-%d')
+            except ValueError:
+                # Put invalid dates at the end
+                return datetime.strptime('1900-01-01', '%Y-%m-%d')
+        
+        self.victims.sort(key=parse_date, reverse=True)
 
     def save_victims(self):
         """Save victims to JSON file"""
@@ -88,6 +100,7 @@ class VictimsManager:
         }
 
         self.victims.append(new_victim)
+        self.sort_victims_by_date()
         self.save_victims()
         print(f"✓ Added victim: {firstname} {lastname} - {date_of_death}")
         return True

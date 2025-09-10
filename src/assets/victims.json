@@ -3,5 +3,20 @@
     "firstname": "Charlie",
     "lastname": "Kirk",
     "dateOfDeath": "2025-09-10"
+  },
+  {
+    "firstname": "Adrian",
+    "lastname": "Torres",
+    "dateOfDeath": "2025-09-10"
+  },
+  {
+    "firstname": "Alexis",
+    "lastname": "Jasso",
+    "dateOfDeath": "2025-09-07"
+  },
+  {
+    "firstname": "Francisco",
+    "lastname": "Navarrete",
+    "dateOfDeath": "2025-09-07"
   }
 ]
